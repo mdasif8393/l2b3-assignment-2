@@ -22,7 +22,9 @@ const createProductToDB = async (req: Request, res: Response) => {
 
 const getAllProductsFromDB = async (req: Request, res: Response) => {
   try {
-    const result = await ProductService.getAllProductsFromDB();
+    const { searchTerm } = req.query;
+    console.log(searchTerm);
+    const result = await ProductService.getAllProductsFromDB(searchTerm);
 
     res.status(200).json({
       success: true,
@@ -57,8 +59,51 @@ const getSingleProductFromDB = async (req: Request, res: Response) => {
   }
 };
 
+const updateProductToDB = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+    const product = req.body;
+
+    const result = await ProductService.updateProductToDB(productId, product);
+
+    res.status(200).json({
+      success: true,
+      message: "Product updated successfully!!",
+      data: result,
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+      error: err,
+    });
+  }
+};
+
+const deleteProductFromDB = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+
+    const result = await ProductService.deleteProductFromDB(productId);
+
+    res.status(200).json({
+      success: true,
+      message: "Product deleted successfully!!",
+      data: null,
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+      error: err,
+    });
+  }
+};
+
 export const ProductController = {
   createProductToDB,
   getAllProductsFromDB,
   getSingleProductFromDB,
+  updateProductToDB,
+  deleteProductFromDB,
 };
