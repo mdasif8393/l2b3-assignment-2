@@ -15,7 +15,7 @@ app.use("/api/orders", OrderRoutes);
 app.get("/", (req, res) => {
   res.status(200).json({
     success: true,
-    message: "leb3 Assignment 2 Product inventory management running",
+    message: "l2b3 Assignment 2 Product inventory management running",
   });
 });
 
