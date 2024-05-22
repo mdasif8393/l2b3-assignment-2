@@ -5,7 +5,6 @@ const createOrderToDb = async (req: Request, res: Response) => {
   try {
     const order = req.body;
     const result = await OrderService.createOrderToDb(order);
-    console.log(result);
 
     res.status(200).json({
       success: true,
