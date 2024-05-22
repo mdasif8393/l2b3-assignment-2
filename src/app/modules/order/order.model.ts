@@ -21,18 +21,14 @@ export const orderSchema = new Schema<TOrder, OrderModel>({
   },
 });
 
-// orderSchema.pre("save", async function (next) {
-//   const currentOrder = this;
-//   console.log(currentOrder);
-// });
-
+// static method to check product quantity before create a order
 orderSchema.statics.isProductExists = async function (orderData: TOrder) {
   if (
     !(await Product.findOne({
       _id: orderData.productId,
     }))
   ) {
-    throw new Error("Product Not found");
+    throw new Error("Order Not found");
   } else if (
     !(await Product.findOne({
       _id: orderData.productId,

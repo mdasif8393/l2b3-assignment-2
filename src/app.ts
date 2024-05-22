@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 // use all route
-app.use("/api", ProductRoutes);
+app.use("/api/products", ProductRoutes);
 app.use("/api/orders", OrderRoutes);
 
 app.get("/", (req, res) => {

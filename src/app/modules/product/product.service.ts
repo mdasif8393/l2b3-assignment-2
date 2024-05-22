@@ -34,7 +34,8 @@ const updateProductToDB = async (
   const zodParsedUpdateProduct = updateProductValidationSchema.parse(product);
   const result = await Product.findByIdAndUpdate(
     productId,
-    zodParsedUpdateProduct
+    zodParsedUpdateProduct,
+    { new: true }
   );
 
   return result;
