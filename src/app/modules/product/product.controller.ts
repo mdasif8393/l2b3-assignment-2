@@ -67,7 +67,7 @@ const updateProductToDB = async (req: Request, res: Response) => {
 
     res.status(200).json({
       success: true,
-      message: "Product updated successfully!!",
+      message: "Product updated successfully!",
       data: result,
     });
   } catch (err: any) {
@@ -83,11 +83,11 @@ const deleteProductFromDB = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
 
-    const result = await ProductService.deleteProductFromDB(productId);
+    await ProductService.deleteProductFromDB(productId);
 
     res.status(200).json({
       success: true,
-      message: "Product deleted successfully!!",
+      message: "Product deleted successfully!",
       data: null,
     });
   } catch (err: any) {

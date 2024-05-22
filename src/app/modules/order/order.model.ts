@@ -38,7 +38,7 @@ orderSchema.statics.isProductExists = async function (orderData: TOrder) {
       _id: orderData.productId,
     }))
   ) {
-    throw new Error("Product Not found");
+    throw new Error("Order not found");
   }
   // if product QUANTITY IS NOT SUFFICIENT THROW ERROR
   else if (
@@ -47,7 +47,7 @@ orderSchema.statics.isProductExists = async function (orderData: TOrder) {
       "inventory.quantity": { $gte: orderData.quantity },
     }))
   ) {
-    throw new Error("Insufficient product");
+    throw new Error("Insufficient quantity available in inventory");
   }
   // decrease product quantity
   else {

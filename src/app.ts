@@ -1,5 +1,5 @@
 import cors from "cors";
-import express, { Application } from "express";
+import express, { Application, Request, Response } from "express";
 import { OrderRoutes } from "./app/modules/order/order.route";
 import { ProductRoutes } from "./app/modules/product/product.route";
 
@@ -14,6 +14,13 @@ app.use("/api/orders", OrderRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
+});
+
+app.all("*", (req: Request, res: Response) => {
+  res.status(200).json({
+    success: false,
+    message: "Route not found",
+  });
 });
 
 export default app;
