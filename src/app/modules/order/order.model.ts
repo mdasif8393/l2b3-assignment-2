@@ -23,24 +23,41 @@ export const orderSchema = new Schema<TOrder, OrderModel>({
 
 // static method to check product quantity before create a order
 orderSchema.statics.isProductExists = async function (orderData: TOrder) {
+  // update product inStock field false if quantity <= 0
+  await Product.updateMany(
+    {
+      "inventory.quantity": { $lte: 0 },
+    },
+    {
+      "inventory.inStock": false,
+    }
+  );
+  // if product not found in database throw error
   if (
     !(await Product.findOne({
       _id: orderData.productId,
     }))
   ) {
-    throw new Error("Order Not found");
-  } else if (
+    throw new Error("Product Not found");
+  }
+  // if product QUANTITY IS NOT SUFFICIENT THROW ERROR
+  else if (
     !(await Product.findOne({
       _id: orderData.productId,
       "inventory.quantity": { $gte: orderData.quantity },
     }))
   ) {
     throw new Error("Insufficient product");
-  } else {
+  }
+  // decrease product quantity
+  else {
     const existingProduct = await Product.findOneAndUpdate(
       {
-        _id: orderData.productId,
-        "inventory.quantity": { $gte: orderData.quantity },
+        $and: [
+          { _id: orderData.productId },
+          { "inventory.quantity": { $gt: 0 } },
+          { "inventory.quantity": { $gte: orderData.quantity } },
+        ],
       },
       { $inc: { "inventory.quantity": -orderData.quantity } }
     );
