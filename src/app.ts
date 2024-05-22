@@ -13,7 +13,10 @@ app.use("/api/products", ProductRoutes);
 app.use("/api/orders", OrderRoutes);
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.status(200).json({
+    success: true,
+    message: "leb3 Assignment 2 Product inventory management running",
+  });
 });
 
 app.all("*", (req: Request, res: Response) => {
